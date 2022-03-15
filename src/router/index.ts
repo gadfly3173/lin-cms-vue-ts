@@ -8,10 +8,14 @@ import store from '../store'
 import routes from './route'
 
 // 判断是否需要登录访问, 配置位于 config 文件夹
-let isLoginRequired = routeName => {
+let isLoginRequired = (routeName: string | symbol): boolean => {
   // 首次执行时缓存配置
   let { notLoginRoute } = appConfig
-  const notLoginMark = {}
+  interface stringBoolMap {
+    [key: string]: boolean
+  }
+
+  const notLoginMark: stringBoolMap = {}
 
   // 构建标记对象
   if (Array.isArray(notLoginRoute)) {
@@ -23,40 +27,42 @@ let isLoginRequired = routeName => {
   notLoginRoute = null // 释放内存
 
   // 重写初始化函数
-  isLoginRequired = name => {
+  isLoginRequired = (name: string | symbol): boolean => {
     if (!name) {
       return true
     }
     // 处理 Symbol 类型
     const target = typeof name === 'symbol' ? name.description : name
-    return !notLoginMark[target]
+    return !notLoginMark[target as string]
   }
 
   return isLoginRequired(routeName)
 }
 
 const router = createRouter({
-  scrollBehavior: () => ({ y: 0 }),
-  base: process.env.BASE_URL,
+  scrollBehavior: () => ({ top: 0 }),
   history: createWebHashHistory(),
   routes,
 })
 
 router.beforeEach((to, from, next) => {
   // 登录验证
-  if (isLoginRequired(to.name) && !store.state.loggedIn) {
+  if (isLoginRequired(to.name as string) && !store.state.loggedIn) {
     next({ path: '/login' })
     return
   }
 
   // TODO: tab 模式重复点击验证
+  if (to.path === from.path) {
+    return
+  }
 
   // 权限验证
   if (store?.state && store?.getters) {
     const { permissions, user } = store.getters
-    if (to.path !== '/about' && !Util.hasPermission(permissions, to.meta, user)) {
+    if (to.path !== appConfig.defaultRoute && !Util.hasPermission(permissions, to.meta, user)) {
       ElMessage.error('您无此页面的权限哟')
-      next({ path: '/about' })
+      next({ path: appConfig.defaultRoute })
       return
     }
   }
@@ -66,7 +72,7 @@ router.beforeEach((to, from, next) => {
 
   // 路由发生变化修改页面title
   if (to.meta.title) {
-    document.title = to.meta.title
+    document.title = to.meta.title as string
   }
 
   next()

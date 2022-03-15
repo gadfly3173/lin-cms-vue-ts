@@ -33,6 +33,12 @@ module.exports = {
     'max-len': ['error', { code: 200 }],
     'no-use-before-define': 'off',
     'no-prototype-builtins': 'off',
+    camelcase: [
+      0,
+      {
+        properties: 'always',
+      },
+    ],
     'class-methods-use-this': 'off',
     'template-curly-spacing': 'off',
     'arrow-parens': ['error', 'as-needed'],
