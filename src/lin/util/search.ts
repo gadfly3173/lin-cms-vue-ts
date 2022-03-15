@@ -1,4 +1,5 @@
-import FastScanner from 'fastscan'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const FastScanner: any = require('fastscan')
 
 // const words = ['今日头条',
 //   '微信', '支付宝',
@@ -15,7 +16,7 @@ import FastScanner from 'fastscan'
  * @param {string} word
  * @param {string} content
  */
-export async function searchForWord(word, content) {
+export async function searchForWord(word: string, content: string) {
   const scanner = new FastScanner([word])
   const offWords = scanner.search(content)
   return offWords
@@ -26,7 +27,7 @@ export async function searchForWord(word, content) {
  * @param {Array<string>} words
  * @param {string} content
  */
-export async function searchForWords(words, content) {
+export async function searchForWords(words: string[], content: string) {
   const scanner = new FastScanner(words)
   const offWords = scanner.search(content)
   return offWords
@@ -36,7 +37,7 @@ export async function searchForWords(words, content) {
  * @param {string} keyword
  * @param {Array} logs
  */
-export function searchLogKeyword(keyword, logs, className = 'strong') {
+export function searchLogKeyword(keyword: string, logs: any[], className = 'strong') {
   console.log('keyword', keyword)
   console.log('logs', logs)
   const _logs = logs.map(log => {

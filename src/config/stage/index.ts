@@ -1,10 +1,11 @@
 import Utils from '@/lin/util/util'
+import { CMSRouterNode } from 'typing/router'
 import adminConfig from './admin'
 import bookConfig from './book' // 引入图书管理路由文件
 import pluginsConfig from './plugin'
 
 // eslint-disable-next-line import/no-mutable-exports
-let homeRouter = [
+let homeRouter: CMSRouterNode[] = [
   {
     title: '林间有风',
     type: 'view',
@@ -49,7 +50,7 @@ let homeRouter = [
 ]
 
 // 接入插件
-const plugins = [...pluginsConfig]
+const plugins: CMSRouterNode[] = []
 filterPlugin(homeRouter)
 homeRouter = homeRouter.concat(plugins)
 
@@ -62,7 +63,7 @@ export default homeRouter
 /**
  * 筛除已经被添加的插件
  */
-function filterPlugin(data) {
+function filterPlugin(data: CMSRouterNode[] | CMSRouterNode) {
   if (plugins.length === 0) {
     return
   }
@@ -84,7 +85,7 @@ function filterPlugin(data) {
 /**
  * 使用 Symbol 处理 name 字段, 保证唯一性
  */
-function deepReduceName(target) {
+function deepReduceName(target: CMSRouterNode[] | CMSRouterNode) {
   if (Array.isArray(target)) {
     target.forEach(item => {
       if (typeof item !== 'object') {

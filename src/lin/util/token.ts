@@ -3,7 +3,7 @@
  * @param {string} accessToken
  * @param {string} refreshToken
  */
-export function saveTokens(accessToken, refreshToken) {
+export function saveTokens(accessToken: string, refreshToken: string) {
   localStorage.setItem('access_token', `Bearer ${accessToken}`)
   localStorage.setItem('refresh_token', `Bearer ${refreshToken}`)
 }
@@ -12,7 +12,7 @@ export function saveTokens(accessToken, refreshToken) {
  * 存储access_token
  * @param {string} accessToken
  */
-export function saveAccessToken(accessToken) {
+export function saveAccessToken(accessToken: string) {
   localStorage.setItem('access_token', `Bearer ${accessToken}`)
 }
 
@@ -20,7 +20,7 @@ export function saveAccessToken(accessToken) {
  * 获得某个token
  * @param {string} tokenKey
  */
-export function getToken(tokenKey) {
+export function getToken(tokenKey: string) {
   return localStorage.getItem(tokenKey)
 }
 

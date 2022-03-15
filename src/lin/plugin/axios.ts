@@ -1,7 +1,7 @@
 /**
  * 封装 axios
  */
-import axios from 'axios'
+import axios, { AxiosRequestHeaders, Method } from 'axios'
 import { ElMessage } from 'element-plus'
 
 import store from '@/store'
@@ -11,6 +11,17 @@ import autoJump from '@/lin/util/auto-jump'
 import ErrorCode from '@/config/error-code'
 import { getToken, saveAccessToken } from '@/lin/util/token'
 
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    handleError?: boolean
+    showBackend?: boolean
+  }
+  export interface AxiosInstance extends Axios {
+    (config: AxiosRequestConfig): Promise<any>
+    (url: string, config?: AxiosRequestConfig): Promise<any>
+  }
+}
+
 const config = {
   baseURL: Config.baseURL || '',
   timeout: 5 * 1000, // 请求超时时间设置
@@ -18,7 +29,7 @@ const config = {
   // withCredentials: true, // Check cross-site Access-Control
   // 定义可获得的http响应状态码
   // return true、设置为null或者undefined，promise将resolved,否则将rejected
-  validateStatus(status) {
+  validateStatus(status: number) {
     return status >= 200 && status < 510
   },
 }
@@ -27,7 +38,7 @@ const config = {
  * 错误码是否是refresh相关
  * @param { number } code 错误码
  */
-function refreshTokenException(code) {
+function refreshTokenException(code: number) {
   const codes = [10000, 10042, 10050, 10052, 10012]
   return codes.includes(code)
 }
@@ -47,7 +58,7 @@ _axios.interceptors.request.use(
       console.error('request need url')
     }
 
-    reqConfig.method = reqConfig.method.toLowerCase() // 大小写容错
+    reqConfig.method = reqConfig.method ? (reqConfig.method.toLowerCase() as Method) : 'get' // 大小写容错
 
     // 参数容错
     if (reqConfig.method === 'get') {
@@ -84,12 +95,12 @@ _axios.interceptors.request.use(
     if (reqConfig.url === 'cms/user/refresh') {
       const refreshToken = getToken('refresh_token')
       if (refreshToken) {
-        reqConfig.headers.Authorization = refreshToken
+        (reqConfig.headers as AxiosRequestHeaders).Authorization = refreshToken
       }
     } else {
       const accessToken = getToken('access_token')
       if (accessToken) {
-        reqConfig.headers.Authorization = accessToken
+        (reqConfig.headers as AxiosRequestHeaders).Authorization = accessToken
       }
     }
 
@@ -122,15 +133,12 @@ _axios.interceptors.response.use(
       }
       // assessToken相关，刷新令牌
       if (code === 10041 || code === 10051) {
-        const cache = {}
-        if (cache.url !== url) {
-          cache.url = url
-          const refreshResult = await _axios('cms/user/refresh')
-          saveAccessToken(refreshResult.access_token)
-          // 将上次失败请求重发
-          const result = await _axios(res.config)
-          return resolve(result)
-        }
+        const refreshResult = await get('cms/user/refresh')
+        saveAccessToken(refreshResult.access_token)
+        // 将上次失败请求重发
+        const result = await _axios(res.config)
+        resolve(result)
+        return
       }
 
       // 弹出信息提示的第一种情况：直接提示后端返回的异常信息（框架默认为此配置）；
@@ -156,10 +164,10 @@ _axios.interceptors.response.use(
         tipMessage = message
       }
       if (Object.prototype.toString.call(message) === '[object Object]') {
-        ;[tipMessage] = Object.values(message).flat()
+        [tipMessage] = Object.values(message).flat() as string[]
       }
       if (Object.prototype.toString.call(message) === '[object Array]') {
-        ;[tipMessage] = message
+        [tipMessage] = message
       }
       ElMessage.error(tipMessage)
       reject(res)
@@ -181,12 +189,7 @@ _axios.interceptors.response.use(
 
 // 导出常用函数
 
-/**
- * @param {string} url
- * @param {object} data
- * @param {object} params
- */
-export function post(url, data = {}, params = {}) {
+export function post(url: string, data = {}, params = {}): any {
   return _axios({
     method: 'post',
     url,
@@ -195,11 +198,7 @@ export function post(url, data = {}, params = {}) {
   })
 }
 
-/**
- * @param {string} url
- * @param {object} params
- */
-export function get(url, params = {}) {
+export function get(url: string, params = {}): any {
   return _axios({
     method: 'get',
     url,
@@ -207,12 +206,7 @@ export function get(url, params = {}) {
   })
 }
 
-/**
- * @param {string} url
- * @param {object} data
- * @param {object} params
- */
-export function put(url, data = {}, params = {}) {
+export function put(url: string, data = {}, params = {}): any {
   return _axios({
     method: 'put',
     url,
@@ -221,11 +215,7 @@ export function put(url, data = {}, params = {}) {
   })
 }
 
-/**
- * @param {string} url
- * @param {object} params
- */
-export function _delete(url, params = {}) {
+export function _delete(url: string, params = {}): any {
   return _axios({
     method: 'delete',
     url,

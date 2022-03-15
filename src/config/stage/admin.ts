@@ -1,5 +1,7 @@
-const adminRouter = {
-  route: null,
+import { CMSRouterNode } from 'typing/router'
+
+const adminRouter: CMSRouterNode = {
+  route: '/admin/user/list',
   name: null,
   title: '权限管理',
   type: 'folder',

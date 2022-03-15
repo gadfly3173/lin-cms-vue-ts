@@ -1,5 +1,7 @@
-const bookRouter = {
-  route: null,
+import { CMSRouterNode } from 'typing/router'
+
+const bookRouter: CMSRouterNode = {
+  route: '/book/list',
   name: null,
   title: '图书管理',
   type: 'folder', // 类型: folder, tab, view

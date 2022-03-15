@@ -6,11 +6,12 @@
   </el-config-provider>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
-export default {
+export default defineComponent({
   components: {
     [ElConfigProvider.name]: ElConfigProvider,
   },
@@ -20,9 +21,9 @@ export default {
     }
   },
   mounted() {
-    document.getElementById('loader').style.display = 'none'
+    (document.getElementById('loader') as HTMLElement).style.display = 'none'
   },
-}
+})
 </script>
 
 <style lang="scss">

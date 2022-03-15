@@ -6,8 +6,12 @@ module.exports = {
     node: true,
     jest: true,
   },
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
+    ecmaVersion: 2020,
+  },
   plugins: ['vue'],
-  extends: ['plugin:vue/vue3-essential', '@vue/airbnb'],
+  extends: ['plugin:vue/vue3-essential', '@vue/airbnb', '@vue/typescript', '@vue/typescript/recommended'],
   rules: {
     'vue/custom-event-name-casing': 'off',
     'vue/no-deprecated-slot-attribute': 'off',
@@ -49,8 +53,20 @@ module.exports = {
         ImportDeclaration: 'never',
       },
     ],
+    // 优先使用 interface 而不是 type
+    '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
+    '@typescript-eslint/no-explicit-any': 'off',
   },
-  parserOptions: {
-    parser: 'babel-eslint',
-  },
+  // eslint对于ts的全局类型支持并不完善，因此官方建议禁用
+  // eslint-disable-next-line max-len
+  // https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/FAQ.md#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
+  overrides: [
+    {
+      files: ['*.ts'],
+      rules: {
+        'no-undef': 'off',
+        'no-unused-vars': 'off',
+      },
+    },
+  ],
 }

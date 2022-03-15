@@ -2,7 +2,7 @@ import storage from 'good-storage'
 
 const LOGIN_KEY = '__login__'
 
-export function setLoggedIn(flag) {
+export function setLoggedIn(flag: any) {
   storage.session.set(LOGIN_KEY, flag)
   return flag
 }

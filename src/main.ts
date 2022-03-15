@@ -1,6 +1,6 @@
 import 'dayjs/locale/zh-cn'
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus'
+import ElementPlus, { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 
 import '@/config/global'
@@ -13,9 +13,9 @@ import store from '@/store'
 import router from '@/router'
 
 import LinNotify from '@/component/notify'
-import LIcon from '@/component/base/icon/lin-icon'
-import StickyTop from '@/component/base/sticky-top/sticky-top'
-import SourceCode from '@/component/base/source-code/source-code'
+import LIcon from '@/component/base/icon/lin-icon.vue'
+import StickyTop from '@/component/base/sticky-top/sticky-top.vue'
+import SourceCode from '@/component/base/source-code/source-code.vue'
 
 import '@/assets/style/index.scss'
 import 'element-plus/dist/index.css'
@@ -58,6 +58,3 @@ app.config.globalProperties.$filters = filters
 app.directive('permission', permissionDirective)
 
 app.mount('#app')
-
-// 设置 App 实例
-window.App = app

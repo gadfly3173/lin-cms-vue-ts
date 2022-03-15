@@ -6,14 +6,14 @@ moment.locale('zh-cn')
 /**
  * @param {number} hours
  */
-export function getDateAfterHours(hours) {
+export function getDateAfterHours(hours: number) {
   const now = new Date()
   return new Date(now.setHours(now.getHours() + hours))
 }
 /**
  * @param {number} days
  */
-export function getDateAfterDays(days) {
+export function getDateAfterDays(days: number) {
   const now = new Date()
   return new Date(now.setHours(now.getHours() + days * 24))
 }

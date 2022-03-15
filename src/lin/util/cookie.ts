@@ -4,7 +4,7 @@ import cookies from 'js-cookie'
  * @param {string} accessToken
  * @param {string} refreshToken
  */
-export function saveTokens(accessToken, refreshToken) {
+export function saveTokens(accessToken: string, refreshToken: string) {
   // 存储tokens tokens只进入cookies，不进入vuex全局管理
   cookies.set('access_token', `Bearer ${accessToken}`)
   cookies.set('refresh_token', `Bearer ${refreshToken}`)
@@ -14,7 +14,7 @@ export function saveTokens(accessToken, refreshToken) {
  * 存储access_token
  * @param {string} accessToken
  */
-export function saveAccessToken(accessToken) {
+export function saveAccessToken(accessToken: string) {
   cookies.set('access_token', `Bearer ${accessToken}`)
 }
 
@@ -22,7 +22,7 @@ export function saveAccessToken(accessToken) {
  * 获得某个token
  * @param {string} tokenKey
  */
-export function getToken(tokenKey) {
+export function getToken(tokenKey: string) {
   return cookies.get(tokenKey)
 }
 

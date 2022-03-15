@@ -1,5 +1,7 @@
-const centerRouter = {
-  route: null,
+import { CMSRouterNode } from 'typing/router'
+
+const centerRouter: CMSRouterNode = {
+  route: '/center',
   name: null,
   title: '个人',
   type: 'view', // 类型: folder, tab, view

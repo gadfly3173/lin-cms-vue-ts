@@ -1,14 +1,8 @@
 import VueRouter, { Route } from 'vue-router'
 
-export interface IpcRendererAPI {
-  send: (channel: string, ...data: any[]) => void
-  sendSync: (channel: string, ...data: any[]) => any
-  receive: (channel: string, func: (...args: any[]) => void) => void
-}
 declare global {
   interface Window {
     MAX_SUCCESS_CODE: number
-    ipcRenderer: IpcRendererAPI
   }
 }
 
