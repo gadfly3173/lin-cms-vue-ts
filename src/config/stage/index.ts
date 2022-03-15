@@ -1,5 +1,5 @@
-import Utils from '@/lin/util/util'
 import { CMSRouterNode } from 'typing/router'
+import Utils from '@/lin/util/util'
 import adminConfig from './admin'
 import bookConfig from './book' // 引入图书管理路由文件
 import pluginsConfig from './plugin'

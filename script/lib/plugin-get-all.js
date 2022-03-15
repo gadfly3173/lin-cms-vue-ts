@@ -10,7 +10,7 @@ function isPlugin(source) {
   if (!fs.lstatSync(source).isDirectory()) {
     return false
   }
-  const configPath = path.resolve(source, './stage-config.js')
+  const configPath = path.resolve(source, './stage-config.ts')
   const packagePath = path.resolve(source, './package.json')
   if (result && !fs.existsSync(configPath)) {
     result = false

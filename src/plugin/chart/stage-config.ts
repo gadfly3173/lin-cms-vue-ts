@@ -1,4 +1,6 @@
-const ChartsRouter = {
+import { CMSRouterNode } from 'typing/router'
+
+const ChartsRouter: CMSRouterNode = {
   route: '/dashboard',
   name: 'DashBoard',
   title: '数据分析',

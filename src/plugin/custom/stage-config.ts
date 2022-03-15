@@ -1,5 +1,7 @@
-const CustomRouter = {
-  route: null,
+import { CMSRouterNode } from 'typing/router'
+
+const CustomRouter: CMSRouterNode = {
+  route: '/custom/upload-image',
   name: null,
   title: '自定义组件',
   type: 'folder',

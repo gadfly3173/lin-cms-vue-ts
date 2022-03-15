@@ -1,5 +1,7 @@
-const linCmsUiRouter = {
-  route: null,
+import { CMSRouterNode } from 'typing/router'
+
+const linCmsUiRouter: CMSRouterNode = {
+  route: '/lin-cms-ui/basic/button',
   name: null,
   title: 'UI',
   type: 'folder',

@@ -1,0 +1,10 @@
+// 本文件是自动生成, 请勿修改
+import { CMSRouterNode } from 'typing/router'
+
+<% plugins.sort((plugin1, plugin2) => plugin1.camelCaseName.localeCompare(plugin2.camelCaseName)).forEach(function(plugin){ %>import <%= plugin.camelCaseName %> from '@/plugin/<%= plugin.name %>/stage-config'
+<% }); %>
+const pluginsConfig: CMSRouterNode[] = [
+<% plugins.sort((plugin1, plugin2) => plugin1.camelCaseName.localeCompare(plugin2.camelCaseName)).forEach(function(plugin){ %>  <%= plugin.camelCaseName %>,
+<% }); %>]
+
+export default pluginsConfig
